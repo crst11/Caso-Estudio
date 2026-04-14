@@ -1,0 +1,2 @@
+/* Estilos globales en styles.css — ver :host display: block */
+:host { display: block; animation: fadeIn 0.3s ease both; }

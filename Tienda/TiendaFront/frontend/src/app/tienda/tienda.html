@@ -1,0 +1,86 @@
+<button
+  type="button"
+  class="sidebar-toggle"
+  (click)="toggleSidebar()"
+  [attr.aria-label]="sidebarOpen ? 'Cerrar menu' : 'Abrir menu'">
+  {{ sidebarOpen ? 'X' : '=' }}
+</button>
+
+<div class="sidebar-overlay" [class.open]="sidebarOpen" (click)="toggleSidebar()"></div>
+
+<aside class="sidebar" [class.open]="sidebarOpen">
+  <div class="sidebar-brand">
+    <div class="brand-logo">SS</div>
+    <div class="brand-text">
+      <div class="brand-name">StyleStore</div>
+      <div class="brand-sub">Panel de gestion</div>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Catalogo</div>
+
+    @for (item of catalogoNav; track item.key) {
+      <button
+        type="button"
+        class="nav-item"
+        [class.active]="vista === item.key"
+        (click)="setVista(item.key)">
+        <span class="nav-icon">{{ item.icon }}</span>
+        <span class="nav-label">{{ item.label }}</span>
+      </button>
+    }
+
+    <div class="nav-section-label nav-section-gap">Gestion</div>
+
+    @for (item of gestionNav; track item.key) {
+      <button
+        type="button"
+        class="nav-item"
+        [class.active]="vista === item.key"
+        (click)="setVista(item.key)">
+        <span class="nav-icon">{{ item.icon }}</span>
+        <span class="nav-label">{{ item.label }}</span>
+      </button>
+    }
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="sidebar-footer-info">
+      <span class="footer-icon">API</span>
+      <div class="footer-text">
+        <div class="footer-title">API conectada</div>
+        <div class="footer-sub">localhost:5186</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<div class="main-content">
+  <header class="topbar">
+    <div class="topbar-title">{{ vistaLabel }}</div>
+    <span class="topbar-badge">StyleStore v1.0</span>
+  </header>
+
+  <div class="page-scroll">
+    <section class="page-panel animate-in" [class.page-panel-active]="vista === 'productos'" [hidden]="vista !== 'productos'">
+      <app-productos />
+    </section>
+
+    <section class="page-panel animate-in" [class.page-panel-active]="vista === 'clientes'" [hidden]="vista !== 'clientes'">
+      <app-clientes />
+    </section>
+
+    <section class="page-panel animate-in" [class.page-panel-active]="vista === 'proveedores'" [hidden]="vista !== 'proveedores'">
+      <app-proveedores />
+    </section>
+
+    <section class="page-panel animate-in" [class.page-panel-active]="vista === 'ventas'" [hidden]="vista !== 'ventas'">
+      <app-ventas />
+    </section>
+
+    <section class="page-panel animate-in" [class.page-panel-active]="vista === 'inventario'" [hidden]="vista !== 'inventario'">
+      <app-inventario />
+    </section>
+  </div>
+</div>

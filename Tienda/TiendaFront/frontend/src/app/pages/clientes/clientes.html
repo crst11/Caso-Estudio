@@ -1,0 +1,104 @@
+@if (mensaje) {
+  <div class="alert" [class.alert-success]="mensajeTipo === 'success'" [class.alert-danger]="mensajeTipo === 'error'">
+    {{ mensaje }}
+  </div>
+}
+
+<div class="section-header">
+  <div class="section-title">
+    <span class="icon">C</span>
+    Clientes
+  </div>
+  <button type="button" class="btn btn-primary" (click)="toggleFormulario()" id="btn-nuevo-cliente">
+    {{ mostrarForm ? 'Cancelar' : 'Nuevo cliente' }}
+  </button>
+</div>
+
+@if (mostrarForm) {
+  <div class="card animate-in" style="margin-bottom:20px">
+    <h3 style="font-family:var(--font-head);font-size:16px;color:var(--text-primary);margin-bottom:16px;font-weight:600">
+      Nuevo cliente
+    </h3>
+    <div class="form-grid" style="grid-template-columns:repeat(auto-fill,minmax(200px,1fr))">
+      <div class="form-group">
+        <label class="form-label">Nombre *</label>
+        <input class="form-control" [(ngModel)]="nuevo.nombre_Cliente" placeholder="Nombre" id="inp-nombre-cliente">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Apellido</label>
+        <input class="form-control" [(ngModel)]="nuevo.apellido_Cliente" placeholder="Apellido" id="inp-apellido-cliente">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Telefono</label>
+        <input class="form-control" [(ngModel)]="nuevo.telefono" type="number" placeholder="Ej: 5512345678" id="inp-tel-cliente">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Correo</label>
+        <input class="form-control" [(ngModel)]="nuevo.correo" type="email" placeholder="correo@ejemplo.com" id="inp-correo-cliente">
+      </div>
+      <div class="form-group" style="grid-column: 1 / -1">
+        <label class="form-label">Direccion</label>
+        <input class="form-control" [(ngModel)]="nuevo.direccion" placeholder="Calle, ciudad, pais" id="inp-dir-cliente">
+      </div>
+    </div>
+    <div class="form-actions">
+      <button type="button" class="btn btn-ghost" (click)="cerrarFormulario()">Cancelar</button>
+      <button type="button" class="btn btn-primary" (click)="guardar()" id="btn-guardar-cliente">Guardar</button>
+    </div>
+  </div>
+}
+
+<div class="card">
+  @if (cargando) {
+    <div class="empty-state">
+      <span class="empty-icon">...</span>
+      <p>Cargando clientes...</p>
+    </div>
+  } @else if (clientes.length === 0) {
+    <div class="empty-state">
+      <span class="empty-icon">-</span>
+      <p>No hay clientes registrados.</p>
+    </div>
+  } @else {
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Telefono</th>
+            <th>Direccion</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (cliente of clientes; track cliente.id_Cliente) {
+            <tr>
+              <td><span class="badge badge-purple">{{ cliente.id_Cliente }}</span></td>
+              <td><strong>{{ cliente.nombre_Cliente }} {{ cliente.apellido_Cliente || '' }}</strong></td>
+              <td>{{ cliente.correo || '-' }}</td>
+              <td>{{ cliente.telefono || '-' }}</td>
+              <td>{{ cliente.direccion || '-' }}</td>
+              <td>
+                <div class="cell-actions">
+                  <button
+                    type="button"
+                    class="btn btn-danger btn-sm btn-icon"
+                    (click)="eliminar(cliente.id_Cliente)"
+                    title="Eliminar"
+                    [id]="'btn-del-cli-' + cliente.id_Cliente">
+                    X
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <div style="padding:12px 0 0;color:var(--text-muted);font-size:12px">
+      {{ clientes.length }} cliente(s) registrados
+    </div>
+  }
+</div>

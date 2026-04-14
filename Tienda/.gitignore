@@ -1,0 +1,17 @@
+# .NET
+**/bin/
+**/obj/
+*.dll
+*.exe
+*.pdb
+
+# Angular / Node
+TiendaFront/frontend/node_modules/
+TiendaFront/frontend/dist/
+TiendaFront/frontend/.angular/
+
+# Editor
+.vscode/
+
+# Logs
+*.log

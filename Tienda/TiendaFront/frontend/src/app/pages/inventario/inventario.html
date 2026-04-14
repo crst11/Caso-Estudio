@@ -1,0 +1,97 @@
+@if (mensaje) {
+  <div class="alert" [class.alert-success]="mensajeTipo === 'success'" [class.alert-danger]="mensajeTipo === 'error'">
+    {{ mensaje }}
+  </div>
+}
+
+<div class="section-header">
+  <div class="section-title">
+    <span class="icon">I</span>
+    Inventario
+  </div>
+  <button type="button" class="btn btn-primary" (click)="toggleFormulario()" id="btn-nuevo-inventario">
+    {{ mostrarForm ? 'Cancelar' : 'Agregar stock' }}
+  </button>
+</div>
+
+@if (mostrarForm) {
+  <div class="card animate-in" style="margin-bottom:20px">
+    <h3 style="font-family:var(--font-head);font-size:16px;color:var(--text-primary);margin-bottom:16px;font-weight:600">
+      Agregar al inventario
+    </h3>
+    <div class="form-grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr))">
+      <div class="form-group">
+        <label class="form-label">Producto *</label>
+        <select class="form-control" [(ngModel)]="nuevo.id_Producto" id="sel-prod-inventario">
+          <option [ngValue]="null" disabled>Selecciona un producto</option>
+          @for (producto of productos; track producto.id_Producto) {
+            <option [ngValue]="producto.id_Producto">
+              {{ producto.nombre_Producto }} (stock actual: {{ producto.stock }})
+            </option>
+          }
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Cantidad a sumar *</label>
+        <input class="form-control" [(ngModel)]="nuevo.cantidad" type="number" min="1" placeholder="Escribe la cantidad" id="inp-cantidad-inventario">
+      </div>
+    </div>
+    <div class="form-actions">
+      <button type="button" class="btn btn-ghost" (click)="cerrarFormulario()">Cancelar</button>
+      <button type="button" class="btn btn-primary" (click)="guardar()" id="btn-guardar-inventario">Guardar</button>
+    </div>
+  </div>
+}
+
+<div class="card">
+  @if (cargando) {
+    <div class="empty-state">
+      <span class="empty-icon">...</span>
+      <p>Cargando inventario...</p>
+    </div>
+  } @else if (inventario.length === 0) {
+    <div class="empty-state">
+      <span class="empty-icon">-</span>
+      <p>No hay registros de inventario.</p>
+    </div>
+  } @else {
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Producto</th>
+            <th>Proveedor</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of inventario; track item.id_Inventario) {
+            <tr>
+              <td><span class="badge badge-purple">{{ item.id_Inventario }}</span></td>
+              <td>
+                <strong>{{ item.nombre_Producto || '#' + item.id_Producto }}</strong>
+                <div style="color:var(--text-muted);font-size:12px">
+                  {{ item.marca || '-' }} / {{ item.talla || '-' }} / {{ item.color || '-' }}
+                </div>
+              </td>
+              <td>{{ item.proveedor || 'Sin proveedor' }}</td>
+              <td>${{ item.precio | number:'1.2-2' }}</td>
+              <td>{{ item.cantidad }}</td>
+              <td>
+                <span class="badge" [class]="stockClass(item.cantidad)">
+                  {{ item.cantidad <= 0 ? 'Sin stock' : item.cantidad <= 5 ? 'Stock bajo' : 'Disponible' }}
+                </span>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <div style="padding:12px 0 0;color:var(--text-muted);font-size:12px">
+      {{ inventario.length }} registro(s) de inventario
+    </div>
+  }
+</div>

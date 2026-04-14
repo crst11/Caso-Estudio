@@ -1,0 +1,137 @@
+@if (mensaje) {
+  <div class="alert" [class.alert-success]="mensajeTipo === 'success'" [class.alert-danger]="mensajeTipo === 'error'">
+    {{ mensaje }}
+  </div>
+}
+
+<div class="section-header">
+  <div class="section-title">
+    <span class="icon">V</span>
+    Ventas
+  </div>
+  <button type="button" class="btn btn-primary" (click)="toggleFormulario()" id="btn-nueva-venta">
+    {{ mostrarForm ? 'Cancelar' : 'Registrar venta' }}
+  </button>
+</div>
+
+@if (mostrarForm) {
+  <div class="card animate-in" style="margin-bottom:20px">
+    <h3 style="font-family:var(--font-head);font-size:16px;color:var(--text-primary);margin-bottom:16px;font-weight:600">
+      Nueva venta
+    </h3>
+    <div class="form-grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr))">
+      <div class="form-group">
+        <label class="form-label">Cliente *</label>
+        <select class="form-control" [(ngModel)]="nuevaVenta.id_Cliente" id="sel-cliente-venta">
+          <option [ngValue]="null" disabled>Selecciona un cliente</option>
+          @for (cliente of clientes; track cliente.id_Cliente) {
+            <option [ngValue]="cliente.id_Cliente">{{ texto(cliente.nombre_Cliente) }} {{ texto(cliente.apellido_Cliente, '') }}</option>
+          }
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Producto *</label>
+        <select class="form-control" [(ngModel)]="nuevaVenta.id_Producto" (change)="calcularTotal()" id="sel-producto-venta">
+          <option [ngValue]="null" disabled>Selecciona un producto</option>
+          @for (producto of productos; track producto.id_Producto) {
+            <option [ngValue]="producto.id_Producto">
+              {{ texto(producto.nombre_Producto) }} - ${{ producto.precio }} - stock: {{ producto.stock }}
+            </option>
+          }
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Cantidad *</label>
+        <input
+          class="form-control"
+          [(ngModel)]="nuevaVenta.cantidad"
+          (input)="calcularTotal()"
+          type="number"
+          min="1"
+          step="1"
+          id="inp-cantidad-venta">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Fecha</label>
+        <input class="form-control" [(ngModel)]="nuevaVenta.fecha_Venta" type="date" id="inp-fecha-venta">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Stock disponible</label>
+        <input class="form-control" [value]="stockDisponible" readonly style="opacity:0.7;cursor:default">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Stock despues de la venta</label>
+        <input class="form-control" [value]="stockDespuesDeVenta" readonly style="opacity:0.7;cursor:default">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Total estimado</label>
+        <input class="form-control" [value]="'$' + calcularTotal()" readonly style="opacity:0.7;cursor:default">
+      </div>
+    </div>
+    <div class="form-actions">
+      <button type="button" class="btn btn-ghost" (click)="cerrarFormulario()">Cancelar</button>
+      <button type="button" class="btn btn-secondary" (click)="guardarVenta()" [disabled]="!puedeGuardar" id="btn-guardar-venta">
+        Guardar venta
+      </button>
+    </div>
+  </div>
+}
+
+<div class="card">
+  @if (cargando) {
+    <div class="empty-state">
+      <span class="empty-icon">...</span>
+      <p>Cargando ventas...</p>
+    </div>
+  } @else if (ventas.length === 0) {
+    <div class="empty-state">
+      <span class="empty-icon">-</span>
+      <p>No hay ventas registradas.</p>
+    </div>
+  } @else {
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Fecha</th>
+            <th>Cliente</th>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Total</th>
+            <th>Stock restante</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (venta of ventas; track venta.id_Ventas) {
+            <tr>
+              <td><span class="badge badge-purple">{{ venta.id_Ventas }}</span></td>
+              <td>{{ venta.fecha_Venta | date:'dd/MM/yyyy' }}</td>
+              <td>{{ texto(venta.cliente) }}</td>
+              <td>{{ texto(venta.producto) }}</td>
+              <td>{{ venta.cantidad }}</td>
+              <td><span class="badge badge-green">${{ venta.total | number:'1.2-2' }}</span></td>
+              <td>{{ venta.stockRestante }}</td>
+              <td>
+                <div class="cell-actions">
+                  <button
+                    type="button"
+                    class="btn btn-danger btn-sm btn-icon"
+                    (click)="eliminarVenta(venta.id_Ventas)"
+                    title="Eliminar venta"
+                    [id]="'btn-del-venta-' + venta.id_Ventas">
+                    X
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <div style="padding:12px 0 0;color:var(--text-muted);font-size:12px">
+      {{ ventas.length }} venta(s) registradas
+    </div>
+  }
+</div>

@@ -1,0 +1,112 @@
+@if (mensaje) {
+  <div class="alert" [class.alert-success]="mensajeTipo === 'success'" [class.alert-danger]="mensajeTipo === 'error'">
+    {{ mensaje }}
+  </div>
+}
+
+<div class="section-header">
+  <div class="section-title">
+    <span class="icon">R</span>
+    Proveedores
+  </div>
+  <button type="button" class="btn btn-primary" (click)="toggleFormulario()" id="btn-nuevo-proveedor">
+    {{ mostrarForm ? 'Cancelar' : 'Nuevo proveedor' }}
+  </button>
+</div>
+
+@if (mostrarForm) {
+  <div class="card animate-in" style="margin-bottom:20px">
+    <h3 style="font-family:var(--font-head);font-size:16px;color:var(--text-primary);margin-bottom:16px;font-weight:600">
+      Nuevo proveedor
+    </h3>
+    <div class="form-grid" style="grid-template-columns:repeat(auto-fill,minmax(200px,1fr))">
+      <div class="form-group">
+        <label class="form-label">Nombre *</label>
+        <input class="form-control" [(ngModel)]="nuevo.nombre_Proveedor" placeholder="Nombre del proveedor" id="inp-nombre-prov">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Telefono</label>
+        <input class="form-control" [(ngModel)]="nuevo.telefono" type="number" placeholder="Ej: 5512345678" id="inp-tel-prov">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Correo</label>
+        <input class="form-control" [(ngModel)]="nuevo.correo" type="email" placeholder="correo@proveedor.com" id="inp-correo-prov">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Producto relacionado</label>
+        <select class="form-control" [(ngModel)]="nuevo.id_Producto" id="inp-prod-prov">
+          <option [ngValue]="null">Sin relacion inicial</option>
+          @for (producto of productos; track producto.id_Producto) {
+            <option [ngValue]="producto.id_Producto">{{ producto.nombre_Producto }}</option>
+          }
+        </select>
+      </div>
+      <div class="form-group" style="grid-column: 1 / -1">
+        <label class="form-label">Direccion</label>
+        <input class="form-control" [(ngModel)]="nuevo.direccion" placeholder="Calle, ciudad, pais" id="inp-dir-prov">
+      </div>
+    </div>
+    <div class="form-actions">
+      <button type="button" class="btn btn-ghost" (click)="cerrarFormulario()">Cancelar</button>
+      <button type="button" class="btn btn-primary" (click)="guardar()" id="btn-guardar-prov">Guardar</button>
+    </div>
+  </div>
+}
+
+<div class="card">
+  @if (cargando) {
+    <div class="empty-state">
+      <span class="empty-icon">...</span>
+      <p>Cargando proveedores...</p>
+    </div>
+  } @else if (proveedores.length === 0) {
+    <div class="empty-state">
+      <span class="empty-icon">-</span>
+      <p>No hay proveedores registrados.</p>
+    </div>
+  } @else {
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nombre</th>
+            <th>Producto ligado</th>
+            <th>Correo</th>
+            <th>Telefono</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (proveedor of proveedores; track proveedor.id_Proveedor) {
+            <tr>
+              <td><span class="badge badge-purple">{{ proveedor.id_Proveedor }}</span></td>
+              <td>
+                <strong>{{ proveedor.nombre_Proveedor }}</strong>
+                <div style="color:var(--text-muted);font-size:12px">{{ proveedor.direccion || '-' }}</div>
+              </td>
+              <td>{{ proveedor.producto || 'Sin producto ligado' }}</td>
+              <td>{{ proveedor.correo || '-' }}</td>
+              <td>{{ proveedor.telefono || '-' }}</td>
+              <td>
+                <div class="cell-actions">
+                  <button
+                    type="button"
+                    class="btn btn-danger btn-sm btn-icon"
+                    (click)="eliminar(proveedor.id_Proveedor)"
+                    title="Eliminar"
+                    [id]="'btn-del-prov-' + proveedor.id_Proveedor">
+                    X
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <div style="padding:12px 0 0;color:var(--text-muted);font-size:12px">
+      {{ proveedores.length }} proveedor(es) registrados
+    </div>
+  }
+</div>
