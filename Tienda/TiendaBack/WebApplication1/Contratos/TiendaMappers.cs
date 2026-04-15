@@ -1,3 +1,4 @@
+// Convierte entidades de base de datos en DTOs listos para el frontend y limpia textos.
 public static class TiendaMappers
 {
     public static ProductoDto ToDto(Productos producto)

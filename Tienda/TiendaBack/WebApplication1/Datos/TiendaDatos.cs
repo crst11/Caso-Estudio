@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
+// Contexto principal de Entity Framework: expone las tablas y define sus relaciones.
 public class TiendaDatos(DbContextOptions<TiendaDatos> options) : DbContext(options)
 {
     public DbSet<Inventario> Inventarios => Set<Inventario>();

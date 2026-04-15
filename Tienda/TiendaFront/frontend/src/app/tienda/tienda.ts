@@ -6,6 +6,7 @@ import { ProductosComponent } from '../pages/productos/productos';
 import { ProveedoresComponent } from '../pages/proveedores/proveedores';
 import { VentasComponent } from '../pages/ventas/ventas';
 
+// Contenedor principal del panel: controla el menu lateral y la vista activa.
 type Vista = 'productos' | 'inventario' | 'ventas' | 'clientes' | 'proveedores';
 
 interface NavItem {

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+// Administra entradas de inventario y enlaza cada registro con su producto.
 [ApiController]
 [Route("api/[controller]")]
 public class InventariosController : ControllerBase

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+// Administra clientes y evita eliminar registros que ya tienen ventas asociadas.
 [ApiController]
 [Route("api/[controller]")]
 public class ClientesController : ControllerBase

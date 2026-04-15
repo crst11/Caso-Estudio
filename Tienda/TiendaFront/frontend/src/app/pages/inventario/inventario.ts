@@ -7,6 +7,7 @@ import { AlertType, Inventario, InventarioPayload, Producto } from '../../models
 import { ApiService } from '../../services/api';
 import { getErrorMessage } from '../../shared/http-error';
 
+// Pantalla de inventario: permite agregar cantidades y ver el estado del stock por producto.
 @Component({
   selector: 'app-inventario',
   standalone: true,

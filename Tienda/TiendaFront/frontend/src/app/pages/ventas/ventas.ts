@@ -13,6 +13,7 @@ import {
 import { ApiService } from '../../services/api';
 import { getErrorMessage } from '../../shared/http-error';
 
+// Pantalla de ventas: registra compras, calcula total y refleja el descuento en inventario.
 @Component({
   selector: 'app-ventas',
   standalone: true,

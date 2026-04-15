@@ -7,6 +7,7 @@ import { AlertType, Cliente, ClientePayload } from '../../models/tienda.models';
 import { ApiService } from '../../services/api';
 import { getErrorMessage } from '../../shared/http-error';
 
+// Pantalla de clientes: lista y registra clientes para poder asociarlos a ventas.
 @Component({
   selector: 'app-clientes',
   standalone: true,

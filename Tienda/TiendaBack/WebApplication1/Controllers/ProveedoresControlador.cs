@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+// Administra proveedores y su relacion directa con los productos.
 [ApiController]
 [Route("api/[controller]")]
 public class ProveedoresController : ControllerBase

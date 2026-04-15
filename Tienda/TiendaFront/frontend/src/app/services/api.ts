@@ -15,6 +15,7 @@ import {
   VentaPayload,
 } from '../models/tienda.models';
 
+// Servicio central de Angular: concentra las llamadas HTTP y notifica cambios entre modulos.
 @Injectable({ providedIn: 'root' })
 export class ApiService {
   private readonly http = inject(HttpClient);

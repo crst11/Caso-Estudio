@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+// Gestiona productos y mantiene sincronizados su proveedor y stock inicial.
 [ApiController]
 [Route("api/[controller]")]
 public class ProductosController : ControllerBase

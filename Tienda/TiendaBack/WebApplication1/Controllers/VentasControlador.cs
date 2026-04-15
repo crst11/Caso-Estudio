@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+// Registra ventas, valida stock disponible y devuelve unidades al eliminar una venta.
 [ApiController]
 [Route("api/[controller]")]
 public class VentasController : ControllerBase

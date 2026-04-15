@@ -7,6 +7,7 @@ import { AlertType, Producto, Proveedor, ProveedorPayload } from '../../models/t
 import { ApiService } from '../../services/api';
 import { getErrorMessage } from '../../shared/http-error';
 
+// Pantalla de proveedores: administra proveedores y su relacion con los productos.
 @Component({
   selector: 'app-proveedores',
   standalone: true,

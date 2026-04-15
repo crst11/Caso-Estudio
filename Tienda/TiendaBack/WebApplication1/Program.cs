@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
+// Punto de entrada de la API: configura base de datos, CORS, controladores y Swagger.
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
     ?? throw new InvalidOperationException("No se encontro la cadena de conexion 'DefaultConnection'.");

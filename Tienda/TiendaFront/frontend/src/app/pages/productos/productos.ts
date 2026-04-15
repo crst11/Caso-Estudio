@@ -7,6 +7,7 @@ import { AlertType, Producto, ProductoPayload, Proveedor } from '../../models/ti
 import { ApiService } from '../../services/api';
 import { getErrorMessage } from '../../shared/http-error';
 
+// Pantalla de productos: lista registros y permite crear productos con proveedor y stock inicial.
 @Component({
   selector: 'app-productos',
   standalone: true,
